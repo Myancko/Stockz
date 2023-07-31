@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Specific_album_list_component from '@/components/list_albuns/list_album/page';
 import Header from '@/components/header/page';
+import style from './style.module.css'
 
 export default function Listagem_album() {
   const [id, setId] = useState(-1)
@@ -16,12 +17,11 @@ export default function Listagem_album() {
   }, []);
 
     return (
-      <body>
+      <body className={style.body}>
         
         <Header  />
 
-        <main className="">
-        <p>listagem</p>
+        <main className={style.main}>
         {id > 0 ?
         (
           <Specific_album_list_component id={id}/>

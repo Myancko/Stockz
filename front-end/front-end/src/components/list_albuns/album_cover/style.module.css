@@ -4,12 +4,19 @@
     max-height: 400px;
     overflow: hidden;
     border-radius: 5px;
+    position: relative;
+}
+.cover:hover
+{
+    overflow: visible;
     
 }
-.cover:hover .div_title
+/* .album_title:hover
 {
-    background-color: #2b2222;
-}
+    background-color: black;
+    z-index: 5000;
+    position: absolute;
+} */
 .div_title
 {
     
@@ -24,6 +31,7 @@
 }
 .album_title
 {
+    width: 275px;
     text-align: center;
     margin: 5px;
 }

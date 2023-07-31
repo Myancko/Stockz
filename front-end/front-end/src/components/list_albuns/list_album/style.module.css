@@ -1,23 +1,53 @@
-.form_cadastro
+.information
+{
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    gap: 40px;
+    background-color: rgb(56, 55, 55);
+    padding: 10px;
+}
+.discription
 {
     display: flex;
+    max-width: 600px;
     flex-direction: column;
-    align-items: center;
-    gap: 1px;
+    gap: 50px;
 }
-.email, .password_input1, .password_input2
+.photos
 {
-    padding: 15px;
-    width: 250px;
-    outline: none;
-    background-color: rgb(56, 55, 55);
+    width: 100%;
+    max-width: 1175px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: white;
+    gap: 15px;
 }
-.create_account
+.title
 {
-    width: 280px;
+    font-size: 46px;
+}
+
+.bottom
+{
+
+}
+.delete_button
+{
+    width: 110px;
     cursor: pointer;
-    border-radius: 3px;
+    background-color: rgb(255, 80, 80);
     padding: 15px;
-    margin-top: 10px;
-    background-color: rgb(18, 18, 204);
+    margin-left: auto;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+.delete_button:hover
+{
+    background-color: rgb(255, 0, 0);
 }
