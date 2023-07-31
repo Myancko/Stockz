@@ -1,0 +1,23 @@
+.form_cadastro
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
+.email, .password_input1, .password_input2
+{
+    padding: 15px;
+    width: 250px;
+    outline: none;
+    background-color: rgb(56, 55, 55);
+}
+.create_account
+{
+    width: 280px;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 15px;
+    margin-top: 10px;
+    background-color: rgb(18, 18, 204);
+}

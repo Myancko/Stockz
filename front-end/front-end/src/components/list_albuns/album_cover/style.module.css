@@ -1,0 +1,36 @@
+.cover
+{
+    width: 275px;
+    max-height: 400px;
+    overflow: hidden;
+    border-radius: 5px;
+    
+}
+.cover:hover .div_title
+{
+    background-color: #2b2222;
+}
+.div_title
+{
+    
+    width: 275px;
+    text-align: center;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    margin-top: -3.5px;
+    background-color: black;
+    max-height: 40px;
+    border-radius: 0px 0px 5px 5px;
+}
+.album_title
+{
+    text-align: center;
+    margin: 5px;
+}
+.album_cover
+{
+    width: 275px;
+    max-width: 275px;
+    max-height: 350px;
+    height: auto;
+}

@@ -1,0 +1,17 @@
+.user_block
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.user_image
+{
+    border-radius: 100%;
+}
+.user_email
+{
+    overflow: hidden;
+    width: 50px;
+    box-shadow: inset -8px  0px rgb(0 0 0 / 0.3);
+
+}

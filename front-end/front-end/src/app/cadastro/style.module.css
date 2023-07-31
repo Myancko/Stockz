@@ -1,0 +1,14 @@
+.main
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 10px;
+    line-height: 1.42857143;
+    flex-direction: column;
+    justify-content: center;
+}
+.title,  .slogan
+{
+    text-align: center;
+}

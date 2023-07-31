@@ -42,7 +42,7 @@ def uploade_data (user_email, folder_id, photo):
     
     for file in file_name:
     
-        
+        print(file, '<<<<<<')
         title = str(file).replace(" ","_").replace("(","").replace(")","").replace("#","").replace("'","").replace("\"","").replace("+","").replace("!","")
         
         file_metadata = {
@@ -86,12 +86,9 @@ def get_image (name, folder_id):
     
     query = f"parents = '{folder_id}'"
     list = service.files().list(q=query).execute()
-    #print(name, '<<<<<<<<<<<<<<<<<')
-    #print(list)
-    #input('wait')
+
     for image in list['files']: 
-        #print(image['name'],'>>>>>>>>>>>>>>')
-        #print(name, image['name'], type(name), type(image['name']), len(str(name)), len(image['name']) )
+
         if image['name'] == str(name):
             #print(image)
             return  image['id']
@@ -187,23 +184,16 @@ def change_permission (id):
         'role' : 'reader',
         'type' : 'anyone'
     }
-    
-    reponse = service.permissions().create(
+    print('pasta_id = ', id)
+    response = service.permissions().create(
         fileId=id,
         body=request_body
     ).execute()
-    
-    sharable_link = service.files().get(
-        fileId=id,
-        fields='webViewLink'
-    ).execute()
-    
-    print(sharable_link)
+
 
 #change_permission('1fcpThq9OPPido_Nc2wMWLlp5mFssQ9MA')
 
 def list_files_in_folder (name):
-    
     
     folder_id= '1ns_O3-F5_90edg1jQTd2Fb1ZTGcyj1xk'
     query = f"parents  = '{folder_id}'" 
@@ -227,7 +217,6 @@ def delete_folder (owner_name, album_title):
     name, id = get_file(owner_name, -1)
     #get owner folder id
 
-    
     name, id = get_file(album_title, id)
     
     delete = f"fileId : '{id}'"

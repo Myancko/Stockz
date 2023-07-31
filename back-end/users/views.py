@@ -18,5 +18,5 @@ class google_view (APIView):
         url = Googleurl.objects.create(url=x)
         url.save()
         
-        return HttpResponseRedirect(redirect_to='http://127.0.0.1:3000/google/page')
+        return HttpResponseRedirect(redirect_to='http://127.0.0.1:3000/google')
 

@@ -2,16 +2,11 @@ from rest_framework import serializers
 from users.models import CustomUser, Googleurl
 
 
-class CustomUserDetailsSerializer(serializers.ModelSerializer):
+class UserSerializer (serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = (
-            'pk',
-            'email',
-            'phone',
-            'gender',
-        )
+        fields = '__all__'
         read_only_fields = ('pk', 'email', 'username')
         
 class GoogleUrlSerializers (serializers.ModelSerializer):

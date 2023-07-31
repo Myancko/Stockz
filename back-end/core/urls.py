@@ -14,12 +14,13 @@ from drf_spectacular.views import (
 
 from albuns.api.viewset import AlbumViewSet
 from photos.api.viewset import PhotoViewSet
-from users.API.views.viewset import GoogleUrlViewSet
+from users.API.views.viewset import GoogleUrlViewSet, UserViewset
 
 router = DefaultRouter()
 
 router.register(r'album', AlbumViewSet, basename='Album')
 router.register(r'photo', PhotoViewSet, basename='Photo')
+router.register(r'user', UserViewset, basename='User')
 router.register(r'GoogleUrlViewSet', GoogleUrlViewSet, basename='GoogleUrl')
 
 

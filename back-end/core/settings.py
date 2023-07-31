@@ -76,6 +76,13 @@ MIDDLEWARE = [
     
     #history
     'simple_history.middleware.HistoryRequestMiddleware',
+]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:3000',
+    'http://localhost:3000',
+    "http://127.0.0.1:3000",
 
 ]
 
@@ -171,9 +178,6 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 
-
-
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -248,15 +252,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-CORS_ORIGINS_ALLOW_ALL = True
-CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:3000',
-    'http://localhost:3000',
-
-]
-CORS_ALLOW_CREDENTIALS: True
 
 file_pa_crlkkkkkkkkkkkkkkkkk = 12321312321312321322
 DATA_UPLOAD_MAX_NUMBER_FILES = file_pa_crlkkkkkkkkkkkkkkkkk

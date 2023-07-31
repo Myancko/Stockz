@@ -22,6 +22,8 @@ class AlbumViewSet (viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete','head']
     permission_classes = [IsAuthenticated]
 
+
+
     def list(self, request, *args, **kwargs):
         
         if request.user.id == None:
@@ -29,9 +31,6 @@ class AlbumViewSet (viewsets.ModelViewSet):
             return Response('no user')
         
         user_albuns = Album.objects.filter(Q(owner = request.user.id) | Q(shared_with = request.user.id))
-        print(Album.history.all())
-        for obj in Album.history.all():
-            print(obj, '<<<<')
         serializer = AlbumSerializers(user_albuns, many=True)
         #print(serializer.data, request.user.id, '<<<')
         return Response(serializer.data)
@@ -63,21 +62,25 @@ class AlbumViewSet (viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
 
-        print(request.user)
-            
-        try:
-            owner_data= User.objects.get(id=request.user.id)
-          
-        except:
-            
-            return HttpResponseRedirect(redirect_to='http://127.0.0.1:3000/login')
+        owner_data= request.user
+        
+        multiple_image_count = 0
+        image = []
+        for dados in request.data:
+            print(dados)
+            if dados == f'photos[{multiple_image_count}][photo]':
+                
+                name = str()
+                print(str(request.data[f'photos[{multiple_image_count}][photo]']))
+                image.append(request.data[f'photos[{multiple_image_count}][photo]'])
+                multiple_image_count += 1
+        
         
         album_request_data = request.data
-        
-        
-        print(request.POST, '<asd\n', request.data,' <asd\n', request)
-        
-       
+        print(request.data)
+
+        print(request.POST, '<POST\n', request.data,' <data\n', request)
+
         
         nem_album = Album.objects.create(title = album_request_data['title'],
                                          discription = album_request_data['discription'],
@@ -85,38 +88,35 @@ class AlbumViewSet (viewsets.ModelViewSet):
                                          #'shared_with = user_list'
                                          )
         
-        drive.create_folder(album_request_data['title'], request.user.email)
+        drive.create_folder(album_request_data['title'], owner_data.email)
         #nem_album.save()
         
-        image = request.FILES.getlist('photos')
         created_folder_id = drive.get_folder_id( album_request_data['title'])
         
         img_list = list()
         
-        if album_request_data['cover']:
+        if album_request_data['cover[title]'] == '':
             
-            cover = request.FILES.getlist('cover') 
-            print(cover)
+            cover = album_request_data['cover[photo]'] 
+            print(type(cover),  type(str(cover)), '<<<<<<')
             #input('wait')
         
-            img = Photo.objects.create(title = str(cover[0]).replace(" ","_").replace("(","").replace(")","").replace("#","").replace("'","").replace("\"","").replace("+","").replace("!",""),
+            img = Photo.objects.create(title = str(cover).replace(" ","_").replace("(","").replace(")","").replace("#","").replace("'","").replace("\"","").replace("+","").replace("!",""),
                                        drive_id = None,
-                                       photo = cover[0], #photo = t,
+                                       photo = cover, #photo = t,
                                        owner = owner_data)
             
             cover_img = Photo.objects.get(id=img.id)
+            
             drive.uploade_data(owner_data, created_folder_id, img.title)
-            
-            img_list.append(img.title)
-            id = drive.get_image(img.title,created_folder_id)
-            
+            id = drive.get_image(img.title, created_folder_id)
             print(id,'<<<<<')
             
             img.drive_id=id
             
-            img.save()
             
             nem_album.cover = img
+            img.save()
             nem_album.save()
             
         for img in image:
@@ -132,7 +132,6 @@ class AlbumViewSet (viewsets.ModelViewSet):
             
             
             drive.uploade_data(owner_data, created_folder_id, img.title)
-            img_list.append(img.title)
             id = drive.get_image(img.title,created_folder_id)
             
             img.drive_id=id
@@ -142,15 +141,11 @@ class AlbumViewSet (viewsets.ModelViewSet):
         try:
             user_list = album_request_data['shared_with']
         except:
-            user_list = []
-            
-        for user in user_list:
-            try:
-                add_user = User.objects.get(id=user.id)
-            except:
-                add_user = User.objects.get(id=user)
-                
-            nem_album.shared_with.add(add_user)
+            user_list = False
+
+        """ tratar user list  dps"""
+        #add_user = User.objects.get(id=request.user.id)
+        nem_album.shared_with.add(owner_data)
             
         nem_album.save()
         drive.change_permission(created_folder_id) 
