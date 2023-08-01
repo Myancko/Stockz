@@ -1,9 +1,4 @@
-.body
-{
-    display: flex;
-    flex-direction: column;
-}
-.main
+.button_div
 {
     width: 100%;
     margin-left: auto;
@@ -12,8 +7,15 @@
     height: fit-content;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background-color: rgb(56, 55, 55);
+    align-items: flex-end;
     margin-top: 20px;
     border-radius: 5px;
+}
+.criar
+{
+    background-color: green;
+    width: 200px;
+    padding: 17px;
+    border-radius: 5px;
+    cursor: pointer;
 }

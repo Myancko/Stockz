@@ -7,14 +7,4 @@ class PhotoSerializers (serializers.ModelSerializer):
     class Meta:
 
         model = Photo
-        fields = ['title', 'drive_id', 'photo', 'owner']
-
-
-class PhotoSerializers (serializers.ModelSerializer):
- 
-    class Meta:
-
-        model = Photo
-        fields = ['title', 'drive_id', 'photo', 'owner']
-
-        
+        fields = ['id', 'title', 'drive_id', 'photo', 'owner']

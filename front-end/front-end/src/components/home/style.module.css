@@ -1,0 +1,16 @@
+.title
+{
+    text-align: center;
+
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+.list_album
+{
+    display: flex;
+    background-color: rgb(56, 55, 55);
+    border-radius: 5px;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}

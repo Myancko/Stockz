@@ -5,3 +5,7 @@
     flex-wrap: wrap;
     gap: 12px;
 }
+.no_album
+{
+    padding: 30px;
+}

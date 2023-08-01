@@ -5,10 +5,13 @@
     overflow: hidden;
     border-radius: 5px;
     position: relative;
+    padding: 10px 0px;
+    
 }
-.cover:hover
+.cover:hover .div_title
 {
-    overflow: visible;
+
+    background-color: rgb(99, 98, 98);
     
 }
 /* .album_title:hover
@@ -25,7 +28,7 @@
     overflow-wrap: break-word;
     overflow: hidden;
     margin-top: -3.5px;
-    background-color: black;
+    background-color: rgb(77, 77, 77);
     max-height: 40px;
     border-radius: 0px 0px 5px 5px;
 }

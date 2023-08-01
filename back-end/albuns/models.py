@@ -21,6 +21,7 @@ class Album (models.Model):
     photos = models.ManyToManyField(Photo, verbose_name=("Fotos"), blank=True, null=True)
     last_modified = models.DateTimeField(("Ultima alteração"), auto_now=True)  
     delete_on_reset_day = models.BooleanField(("Deletar no dia de exclusão"), default=False)
+    public = models.BooleanField(("Publico"), default='True')
     history = HistoricalRecords()
     
     

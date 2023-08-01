@@ -72,7 +72,7 @@ export default function Album_list_component() {
 
           <>
             {albums.length === 0 ? (
-              <p>No albums available.</p>
+              <p className={style.no_album}>No albums available.</p>
             ) : (
             albums.map((album) => (
 

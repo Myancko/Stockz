@@ -9,9 +9,9 @@ GENDER_SELECTION = [
 ]
 
 class CustomUser(AbstractUser):
-    # We don't need to define the email attribute because is inherited from AbstractUser
+
     gender = models.CharField(max_length=20, choices=GENDER_SELECTION)
-    user_photo = models.ImageField('User Photo', default='', blank=True, null=True)
+    user_photo = models.ImageField('User Photo', default='user_place_holder.jpg', blank=True, null=True)
     phone  = models.CharField(max_length=30, blank=True, null=True)
     username = models.CharField(("Nome"), max_length=50, unique=False, primary_key=None)
     email = models.EmailField("E-mail", unique=True)

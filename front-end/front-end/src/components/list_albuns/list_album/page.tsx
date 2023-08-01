@@ -7,9 +7,11 @@ import Album from '@/src/components/atoms/Album';
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import style from './style.module.css'
+import Link from 'next/link'
 
 
 interface Photo {
+  id: number;
   title: string;
   drive_id: string;
   photo: any;
@@ -22,7 +24,7 @@ interface Album {
   discription: string;
   owner: number;
   shared_with: [];
-  create_date: [];
+  create_date: '';
   cover: {
     title: string;
     drive_id: string;
@@ -31,6 +33,7 @@ interface Album {
   };
   photos: Photo[]; // Renamed to Photo[]
   delete_on_reset_day: boolean;
+  public: boolean;
 }
 
 interface User {
@@ -45,6 +48,8 @@ export default function Specific_album_list_component(props) {
   console.log(id)
   const [album, setAlbum] = useState<Album | null>(null); // Change to useState<Album | null>(null)
   const [user, setUser] = useState<User | null>(null)
+  const [currentUser, setCurrentuser] = useState<User | null>(null)
+  const [data, setData] = useState( )
 
   useEffect(() => {
     const coockie = getCookie('access');
@@ -59,22 +64,42 @@ export default function Specific_album_list_component(props) {
             },
           });
 
-          const response_user = await axios.get('http://127.0.0.1:8000/api/user/', {
+          setAlbum(response.data);
+          var data_ = new Date (response.data.create_date )
+          setData( data_ )
+
+          console.log(response.data)
+
+          const response_user = await axios.get<User>('http://127.0.0.1:8000/api/user/' + response.data.owner, {
               headers: {
                 Authorization: 'Bearer ' + coockie,
               },
             });
+            
+          console.log(response_user.data)
+
           setUser(response_user.data)
-          setAlbum(response.data);
-          console.log(response.data);
+
+          const response_current_user = await axios.get<User>('http://127.0.0.1:8000/api/user/', {
+              headers: {
+                Authorization: 'Bearer ' + coockie,
+              },
+            });
+
+          setCurrentuser(response_current_user.data)
+
+          
+          console.log(response.data, '<<<<');
         } catch (error) {
           console.error('Error fetching album:', error);
           setAlbum(null); // Handle the case when the album does not exist or there is an error.
         }
       }
 
+      
       fetchAlbum();
     }
+
   }, []);
 
   const handleDeleteAlbum = async () => {
@@ -93,6 +118,7 @@ export default function Specific_album_list_component(props) {
     }
   };
 
+  console.log(user?.email)
   return (
 
     <section>
@@ -100,7 +126,7 @@ export default function Specific_album_list_component(props) {
         {album ? ( 
           <div>
 
-            {album.cover && user.email ? ( 
+            {album.cover && user?.email ? ( 
               <section className={style.information} >
 
                 <div className={style.cover}>
@@ -108,6 +134,7 @@ export default function Specific_album_list_component(props) {
                     Loading=""
                     key={album.cover.drive_id}
                     src={'https://drive.google.com/uc?export=view&id=' + album.cover.drive_id}
+                    quality={100}
                     width={500}
                     height={500}
                     alt={album.cover.title}
@@ -116,9 +143,15 @@ export default function Specific_album_list_component(props) {
 
                 <div className={style.discription} >
                   <p className={style.title} >{album.title}</p>
-                  <p>{album.discription} sadddddddd saddddddddd sadddddd sadddddd sadddddd sdsasasasasasasa saddd saddd sad sasasasasasasasasasasasasasa dadadadadadadadada </p>
+                  <p>{album.discription}</p>
                   <div>Dono: {user.email}</div>
+                  <div>
+                    <p>{ 'Criado em: ' +data.getDate()+'/'+data.getMonth()+'/'+data.getFullYear()}</p>
+                  </div>
+                  <p>{"Publico: "+album.public}</p>
                 </div>
+
+                
 
               </section>
 
@@ -130,13 +163,17 @@ export default function Specific_album_list_component(props) {
             <div className={style.photos} >
               {album.photos && album.photos.length > 0 ? (
                 album.photos.map((img) => (
-                  <Image
-                    key={img.drive_id}
-                    src={'https://drive.google.com/uc?export=view&id=' + img.drive_id}
-                    width={200}
-                    height={270}
-                    alt={img.title}
-                  />
+                  <Link href={"http://127.0.0.1:3000/album/list/" + props.id + '/' + img.id } >
+                   <Image
+                     key={img.drive_id}
+                     src={'https://drive.google.com/uc?export=view&id=' + img.drive_id}
+                     quality={100}
+                     width={200}
+                     height={300}
+                     className={style.img}
+                     alt={img.title}
+                   />
+                  </Link>
                 ))
               ) : (
                 <p>No photos available</p>
@@ -144,7 +181,20 @@ export default function Specific_album_list_component(props) {
             </div>
 
             <div className={style.bottom}>
-              <button className={style.delete_button} onClick={handleDeleteAlbum}>Delete Album</button>
+              
+              {  user?.email == currentUser?.email ? (
+
+                <>
+                  <button className={style.delete_button} onClick={handleDeleteAlbum}>Deletar Album</button>
+                  <button className={style.edit_button}>Editar</button>
+                </>
+
+              ) : (
+                null
+                )
+              }
+              
+            
             </div>
 
           </div>

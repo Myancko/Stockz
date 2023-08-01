@@ -9,7 +9,7 @@ class AlbumSerializers (serializers.ModelSerializer):
     class Meta:
 
         model = Album
-        fields = ['id', 'title', 'discription', 'owner', 'shared_with', 'create_date', 'cover','photos', 'delete_on_reset_day']   
+        fields = ['id', 'title', 'discription', 'owner', 'shared_with', 'create_date', 'cover','photos', 'delete_on_reset_day', 'public']   
         
     def create(self, validated_data):
         input('entrou')

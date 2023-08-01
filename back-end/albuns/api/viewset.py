@@ -81,13 +81,18 @@ class AlbumViewSet (viewsets.ModelViewSet):
 
         print(request.POST, '<POST\n', request.data,' <data\n', request)
 
+        if  album_request_data['public'] == 'false':
+            publico = False
+
+        else:
+            publico = True
         
         nem_album = Album.objects.create(title = album_request_data['title'],
                                          discription = album_request_data['discription'],
                                          owner=owner_data,
+                                         public=publico
                                          #'shared_with = user_list'
                                          )
-        
         drive.create_folder(album_request_data['title'], owner_data.email)
         #nem_album.save()
         
@@ -149,10 +154,13 @@ class AlbumViewSet (viewsets.ModelViewSet):
             
         nem_album.save()
         drive.change_permission(created_folder_id) 
-        
+        print('pasta liberda <<<<<<<<<')
         for filename in os.listdir('media'):
             print(filename)
+            if filename == "user_place_holder.jpg":
+                continue
             os.remove('media'+'/'+filename)
+            
 
 
         serializer = AlbumSerializers(nem_album)
@@ -171,3 +179,23 @@ class AlbumViewSet (viewsets.ModelViewSet):
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class Public_albuns_list (viewsets.ModelViewSet):
+    
+    filter_backends = []
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializers
+    http_method_names = ['get']
+    permission_classes = [IsAuthenticated]
+    
+    
+    def list(self, request, *args, **kwargs):
+        
+        if request.user.id == None:
+            
+            return Response('no user')
+        
+        user_albuns = Album.objects.filter(public=True)
+        serializer = AlbumSerializers(user_albuns, many=True)
+
+        return Response(serializer.data)
