@@ -16,4 +16,12 @@ class AlbumSerializers (serializers.ModelSerializer):
         customer_serializer = CustomerSerializer(validated_data.get('customer'))
         customer_serializer.save()
         return User.objects.create(**validated_data)
+    
+class AlbumhitorySerializers (serializers.ModelSerializer):
+
+    class Meta:
+
+        model = Album.history.all()
+        fields = '__all__'   
+        
         

@@ -6,6 +6,7 @@ import Image from 'next/image'
 import axios from 'axios'
 import style from './style.module.css'
 import { useRouter } from "next/navigation";
+import Link from 'next/link'
 
 interface Album {
     id : number,
@@ -50,13 +51,14 @@ export default function UserBlock() {
         { user_data ? (
             
             <>
-                
-                <Image 
-                src={'http://127.0.0.1:8000/'+user_data.user_photo}
-                width={50}
-                height={50}
-                className={style.user_image}/>
-                <p className={style.user_email}>{user_data.email}</p>
+              <Link className={style.user_block} href='/user'>
+                  <Image 
+                  src={'/images/icon_place_holder.jpg'}
+                  width={50}
+                  height={50}
+                  className={style.user_image}/>
+                  <p className={style.user_email}>{user_data.email}</p>
+              </Link>
             </>
             
         ) : (

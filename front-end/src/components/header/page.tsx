@@ -43,11 +43,11 @@ export default function Header() {
           <li>
             <Link className={style.blue_hover} href="/album/list" > Meus Albuns </Link>
             </li>
-          <li className={style.blue_hover} >Artistas</li>
+          {/* <li className={style.blue_hover} >Artistas</li> */}
         </ul>
 
         <ul className={style.right_navegation}>
-          <li>Favoritos</li>
+          {/* <li>Favoritos</li> */}
           <li><UserBlock /></li>
           <li className={style.logout} onClick={Logout} >Log out</li>
         </ul>

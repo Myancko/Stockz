@@ -12,7 +12,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView
 )
 
-from albuns.api.viewset import AlbumViewSet, Public_albuns_list
+from albuns.api.viewset import AlbumViewSet, Public_albuns_list, Albuns_history
 from photos.api.viewset import PhotoViewSet
 from users.API.views.viewset import GoogleUrlViewSet, UserViewset
 
@@ -20,6 +20,7 @@ router = DefaultRouter()
 
 router.register(r'album', AlbumViewSet, basename='Album')
 router.register(r'public_album', Public_albuns_list, basename='get_public')
+router.register(r'album_history', Albuns_history, basename='get_public')
 router.register(r'photo', PhotoViewSet, basename='Photo')
 router.register(r'user', UserViewset, basename='User')
 router.register(r'GoogleUrlViewSet', GoogleUrlViewSet, basename='GoogleUrl')

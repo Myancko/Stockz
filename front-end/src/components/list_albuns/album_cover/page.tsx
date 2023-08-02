@@ -16,7 +16,7 @@ export default function Album(props) {
         <div className={style.cover} >
           <Image
             className={style.album_cover} 
-            src={'https://drive.google.com/uc?export=view&id='+props.image}
+            src={'http://127.0.0.1:3001/api/google-drive?id='+props.image}
             width={275}
             height={350}
             />

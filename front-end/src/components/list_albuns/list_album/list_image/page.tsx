@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import style from './style.module.css'
 import Link from 'next/link'
+
 import { ChevronsRight, ChevronsLeft, CornerDownLeft  } from "lucide-react";
 
 interface Photo {
@@ -95,6 +96,7 @@ export default function Specific_image(props: SpecificImageProps) {
 
       fetchPhoto();
     }
+  
   }, []);
 
   const next = async () => {
@@ -146,6 +148,34 @@ export default function Specific_image(props: SpecificImageProps) {
     })
   };
 
+  async function fetchImage() {
+    const url = `https://drive.google.com/uc?export=view&id=1BuEKVCTCVcOMOo7SIUyaizoDIQ8DOGw5`;
+  
+    try {
+      const response: AxiosResponse = await axios.get(url);
+  
+      // Check if the response status code is 200 (success)
+      if (response.status === 200) {
+        // Image was loaded successfully, do something with the image data
+        const imageBuffer: Buffer = Buffer.from(response.data, 'binary');
+        // Here, you can use 'imageBuffer' to save the image or display it on your application
+      } else {
+        console.error(`Error: ${response.status} - ${response.statusText}`);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 403) {
+          console.error('>>>>>>> Error: 403 Forbidden. Your request was refused due to insufficient permissions.', error);
+        } else {
+          console.error('Error:' + error );
+        }
+      } else {
+        console.error('An unexpected error occurred:', error.reason);
+      }
+    }
+  }
+  
+
   const return_album = async () => {
 
     router.push("http://127.0.0.1:3000/album/list/"+props.album_id);
@@ -153,7 +183,6 @@ export default function Specific_image(props: SpecificImageProps) {
   };
 
 ;
-
   return (
 
     <section>
@@ -163,13 +192,16 @@ export default function Specific_image(props: SpecificImageProps) {
 
             <Image  
               key={img.drive_id}
-              src={'https://drive.google.com/uc?export=view&id=' + img.drive_id}
+              src={'http://127.0.0.1:3001/api/google-drive?id=' + img.drive_id}
               width={1200}
               height={700}
               quality={100}
               alt={img.title}
-              className={style.img}>   
+              className={style.img}>  
+               
             </Image>
+
+            {/* <button onClick={fetchImage}>test</button> */}
 
             <div >
             

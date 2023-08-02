@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import style from './style.module.css'
 import Link from 'next/link'
-
+import { Share2 } from "lucide-react";
 
 interface Photo {
   id: number;
@@ -44,17 +44,18 @@ interface User {
 
 export default function Specific_album_list_component(props) {
   const router = useRouter();
-  const { id } = props.id; // Get the ID from the URL
+  const { id } = props.id; 
   console.log(id)
-  const [album, setAlbum] = useState<Album | null>(null); // Change to useState<Album | null>(null)
+  const [album, setAlbum] = useState<Album | null>(null); 
   const [user, setUser] = useState<User | null>(null)
   const [currentUser, setCurrentuser] = useState<User | null>(null)
   const [data, setData] = useState( )
-
+  const [showModal, setShowModal] = useState(false);
+  
   useEffect(() => {
     const coockie = getCookie('access');
     if (props.id) {
-      // Make the API call only when 'id' is available
+
       async function fetchAlbum() {
         try {
           console.log(coockie);
@@ -92,7 +93,7 @@ export default function Specific_album_list_component(props) {
           console.log(response.data, '<<<<');
         } catch (error) {
           console.error('Error fetching album:', error);
-          setAlbum(null); // Handle the case when the album does not exist or there is an error.
+          setAlbum(null);
         }
       }
 
@@ -100,8 +101,16 @@ export default function Specific_album_list_component(props) {
       fetchAlbum();
     }
 
+  
   }, []);
 
+  function openModal() {
+    setShowModal(true);
+  }
+
+  function closeModal() {
+    setShowModal(false);
+  }
   const handleDeleteAlbum = async () => {
     try {
       const coockie = getCookie('access');
@@ -111,8 +120,7 @@ export default function Specific_album_list_component(props) {
         },
       });
 
-      // If the deletion was successful, you can redirect the user to another page, for example, the homepage.
-      router.push('/album/list'); // Replace '/' with the path you want to redirect to after deleting the album.
+      router.push('/album/list'); 
     } catch (error) {
       console.error('Error deleting album:', error);
     }
@@ -133,7 +141,7 @@ export default function Specific_album_list_component(props) {
                   <Image
                     Loading=""
                     key={album.cover.drive_id}
-                    src={'https://drive.google.com/uc?export=view&id=' + album.cover.drive_id}
+                    src={'http://127.0.0.1:3001/api/google-drive?id=' + album.cover.drive_id}
                     quality={100}
                     width={500}
                     height={500}
@@ -151,7 +159,25 @@ export default function Specific_album_list_component(props) {
                   <p>{"Publico: "+album.public}</p>
                 </div>
 
-                
+                <Share2
+                    id="shareModalTrigger" // Use a different id for the Share2 component
+                    className={style.share}
+                    size={30}
+                    color={"white"}
+                    onClick={openModal} // Call openModal when Share2 is clicked
+                  />
+
+                  {/* Modal */}
+                  {showModal && (
+                    <div id="myModal" className={style.modal}>
+                      <div className={style.modalContent}>
+                        <span className={style.close} onClick={closeModal}>
+                          &times;
+                        </span>
+                        <p>Compartilhe seu Álbum: <u>{window.location.href}</u></p>
+                      </div>
+                    </div>
+                  )}
 
               </section>
 
@@ -166,7 +192,7 @@ export default function Specific_album_list_component(props) {
                   <Link href={"http://127.0.0.1:3000/album/list/" + props.id + '/' + img.id } >
                    <Image
                      key={img.drive_id}
-                     src={'https://drive.google.com/uc?export=view&id=' + img.drive_id}
+                     src={'http://127.0.0.1:3001/api/google-drive?id=' + img.drive_id}
                      quality={100}
                      width={200}
                      height={300}

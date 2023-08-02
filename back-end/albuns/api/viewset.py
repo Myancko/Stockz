@@ -3,11 +3,12 @@ from rest_framework import serializers, viewsets, permissions, status
 from  rest_framework.response import Response
 from ..models import Album
 from photos.models import Photo
-from .serializers import AlbumSerializers
+from .serializers import AlbumSerializers, AlbumhitorySerializers
 from django.http import HttpResponseRedirect
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from google_drive import demo as drive
+from django.http import JsonResponse
 
 from django.db.models import Q
 
@@ -199,3 +200,13 @@ class Public_albuns_list (viewsets.ModelViewSet):
         serializer = AlbumSerializers(user_albuns, many=True)
 
         return Response(serializer.data)
+    
+class Albuns_history (viewsets.ModelViewSet):
+    
+    filter_backends = []
+    queryset = Album.history.all()
+    serializer_class = AlbumhitorySerializers
+    http_method_names = ['get']
+    permission_classes = [AllowAny]
+    
+    
